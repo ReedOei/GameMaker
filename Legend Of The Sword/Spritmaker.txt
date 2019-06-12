@@ -1,0 +1,38 @@
+For Legend of the Sword if you still want to make sprites for that too, can you make you own Game Maker File (*.gmk). Make the sprites there and send me that. If you do, then here is my starting mammoth list (will increase one I remember new things) : 
+
+- Items and (This is not all of them.)
+
+ First, I need icons (not *.ico) for shops. They should have a black back and show that item in the middle, with how much it costs underneath. The costs for each item will be listed here. They should also all be 32x32.
+	- Bread (Loaf of bread (Cost = 50 (copper)))
+	- Beef  (Like a steak (Cost = 90 (copper)))
+	- Beer  (Glass of beer (Cost = 30(copper)))
+	- Water (Glass or jug of water (Cost = Free(empty space))))
+	
+	- Rusted Sword (Sword, but rusty, not in scabbard(Cost = 2(silver)))
+	- Arrows       (x15, don't make 15, just put a x15 in the picture(Cost = 95(copper)))
+	- Creaking Bow (Greenish bow (Cost = 1(silver)))
+	- Quater Staff (Long straight stick (Cost = 75(copper)))
+
+	- Leather Armour (Tanish colour, covering most of the upper body, except for arms and head(Cost = 3(silver)))
+
+- Buildings (Barracks info : 
+				All barracks and stables have the repective symbol for that faction on it, (sample symbols in a .zip file sent to you e-mail). That's pretty much it)
+	- Roman
+		- Barracks 	(Tent looking (75x75))
+		- Stable   	(Wooden Barn? (85x85))
+		- Fort	   	(Small wooden castle (250x250))
+		- Archery Range (Long wooden area with archery targets at the end (75x75))
+		- House		(Wooden & stone(different sprites, same description from now on)huts that have door, wooden hut has thatch roof, stone has stone(75x75))
+		- Farm		(Wooden House with farm field(100x100))
+	- Gaellic
+		- Barracks 	(Tent looking (75x75))
+		- Stable   	(Wooden Barn? (85x85))
+		- Fort 		(Wagon circle with stakes(200x200))
+		- Archery Range (Long wooden area with archery targets at the end (75x75))
+	- Selecuid
+		- Barracks 	(Tent looking (75x75))
+		- Stable   	(Wooden Barn? (85x85))
+		- Fort 		(Wagon circle with stakes(200x200))
+		- Archery Range (Long wooden area with archery targets at the end (75x75))
+
+That should keep you busy for a while.

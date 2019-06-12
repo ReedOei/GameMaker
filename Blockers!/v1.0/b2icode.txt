@@ -1,0 +1,63 @@
+enemy_stal=instance_number(obj_stalgmite)
+
+if enemy_create=0{
+	magma_c=floor(random(5))
+	if magma_c=1{
+		instance_create(obj_player.x,playersy,obj_enemy_III)
+	}
+	if enemy_stal<5{
+		instance_create(obj_player.x,staly,obj_stalgmite)
+	}
+	enemy_create=30
+}
+else {
+	enemy_create-=1
+}
+
+if global.boss<=2{
+
+	if obj_player.x>obj_lava_boss.x{
+		hspeed=4
+		if hspeed=0{
+		hspeed=-4
+		}
+	}
+	else if obj_player.x<obj_lava_boss.x{
+		hspeed=4
+		if hspeed=0{
+		hspeed=-4
+		}
+	else if obj_player.x=obj_lava_boss.x{
+		direction=floor(random(2)){
+			if direction=1 {
+				hspeed=4}
+			if direction=2 {
+				hspeed=-4}
+			}
+		}
+			}
+	}
+	
+else if global.boss>=3{
+	if obj_player.x<obj_lava_boss.x{
+		hspeed=-4
+		if hspeed=0{
+		hspeed=-4
+		}
+	}
+	else if obj_player.x>obj_lava_boss.x{
+		hspeed=4
+		if hspeed=0{
+		hspeed=-4
+		}
+	}
+	else if obj_player.x=obj_lava_boss.x{
+		direction=floor(random(2)){
+			if direction=1 {
+				hspeed=4}
+			if direction=2 {
+				hspeed=-4}
+			}
+		}
+	
+	}

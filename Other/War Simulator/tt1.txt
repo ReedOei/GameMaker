@@ -1,0 +1,24 @@
+global.egypt_militia_at = 3
+global.egypt_militia_df = 1
+global.egypt_militia_hp = 10
+
+global.egypt_axemen_at = 8
+global.egypt_axemen_df = 2
+global.egypt_axemen_hp = 15
+
+global.egypt_spear_at = 2
+global.egypt_spear_df = 8
+global.egypt_spear_hp = 15
+
+global.egypt_archer_at = 5
+global.egypt_archer_df = 1
+global.egypt_archer_hp = 10
+
+global.egypt_chariot_at = 15
+global.egypt_chariot_df = 3
+global.egypt_chariot_hp = 20
+
+global.egypt_chariota_at = 20
+global.egypt_chariota_df = 2
+global.egypt_chariota_hp = 15
+

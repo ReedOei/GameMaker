@@ -1,0 +1,541 @@
+{\rtf1\ansi\ansicpg1252\deff0\deflang1033{\fonttbl{\f0\fswiss\fcharset0 Arial;}}
+{\*\generator Msftedit 5.41.21.2509;}\viewkind4\uc1\pard\f0\fs20 An Introduction to Lua\par
+by Ash Matheson\par
+Introduction\par
+\par
+A close friend of mine went on a job interview recently, for a local game development company. I'm not going to name names here, but let's just say that they're a sorta-large Game Development boutique in Vancouver.\par
+\par
+Needless to say, he didn't get the job, but that's a tale for another day. However, I personally believe that one of the reasons he didn't get the job was because of his lack of familiarity with a scripting language that they are using in-house called Lua. This concerns me, since I'm teaching students how to be game programmers and it's a topic that I haven't focused enough on in the past. We cover Unreal Script as part of a course on using an existing engine. But we haven't actually looked at taking a scripting engine and incorporating it into tools or an engine. So, armed with website in hand, I decided to break down this little barrier. The result is described in this document.\par
+\par
+Actually, I'm not sure just how long this document is going to be. I may decide to break it into several smaller pieces, or just write one, long rant that goes from start to finish. Anyway, I'll decide this a little later on, when I've actually gotten my notes into a more intelligent and coherent format.\par
+Why's and whatnots\par
+\par
+First and foremost, why use a scripting language? Simply put, most of the game logic can be scripted for functionality, rather than coding it as part of the engine. As an example, think about loading or initializing a level. When the level is first loaded, maybe you want a cut scene to play. Or maybe you want to show some game credits. With a scripting system, you could get individual game entities to do specific tasks. Also, think in terms of AI. Non-Player Characters need to know what to do. Coding each NPC by hand, in the game engine could be a daunting task. When you wanted to change a behavior of an NPC, you would have to re-compile your system. With a scripting system, you could interactively change the behavior and save that state out.\par
+\par
+I've touched on this issue a little bit in the last paragraph, but I'll discuss it a bit further here. The question is, why not just write the entire game logic in C/C++? Simply put, from a programmer's perspective, we have to start concerning ourselves with the game code, as well as the engine and tools and \'85 well, you get the idea. We can now, with a simple scripting language start exposing that functionality to the level designers. They can start poking and prodding and optimizing gameplay. Here's a ferinstance:\par
+\par
+    Let's imagine that the Joey, our hapless game programmer, writes all the game engine, tools and game logic. Yes, Joey is a pretty busy boy, but let's assume that he's up to the Herculean task. We also have Brandon, the game designer. Brandon's a pretty smart guy and has a very clever idea for the game. So, Joey, our coder, goes away and implements all the game logic using tools he's developed based on Brandon's initial design. All is well in the game shop. The first milestone rolls up and both Joey and Brandon sit in a boardroom and go over the progress. Brandon notices a couple of issues in gameplay that don't quite work. So Joey goes back to the code, makes the changed and re-compiles. This process is going to take a day, at the very least, unless it's a trivial change. Also, depending on the internal process, you may have to wait a full day for the engine/game code to be re-compiled. Many shops have a nightly build process that happens, and the latest demo stream is built from that. So, we can be looking at a 24 hour period before Brandon gets to see the change that he requested.\par
+\par
+    Now, let's imagine that our protagonist, Joey, decided that it would be in his best interest to implement the game logic using a scripting system. This may take a little longer in the beginning, but he feels that it's going to be worth it in the long run. So, he exposes from his game engine a fair bit of functionality to the game scripting system. He also writes all the game logic in said scripting system. So when he goes into the meeting with Brandon, and the designer notices something that he's not quite happy with, Joey opens up a console, makes a couple of changes to the script, and re-runs the game to see the new behavior. The changes can be implemented immediately and displayed immediately, rather than waiting for a re-compile. Additionally, if Joey was particularly bright, the scripting system could be a tool available to the level designers when they build the level. That way, with a little re-education, the designers could set events in the game, like triggers, doors, in-game events to happen without programmer intervention.\par
+\par
+That rather long winded example may be a bit exaggerated, but I hope it brings the point across. What we're trying to do with this model is move to a more data driven workflow. So, essentially what we're trying to go for is the following:\par
+\par
+   1. Means a coder is concerned in writing engine/tool code, rather than game logic.\par
+   2. Means time taken away from writing game engine/tools.\par
+   3. Designers like to be able to 'twiddle' with things. Scripting allows them easy access to this functionality. It also allows them more flexibility to try things out in the level that they normally would have to get a coder involved with.\par
+   4. You don't have to re-compile if you want to change functionality in the game. Simply modify the script.\par
+   5. You want to break the tie between engine code and game code. They should be two separate pieces. That way, it's easy to use the engine for multiple games (hopefully). \par
+\par
+I'll go and make a prediction here. Within 5 years, a level designer will have to do more than just build pretty levels. They'll have to be able to script how the level plays. Several forward thinking game companies have already taken this approach. Also, you see this kind of integration in editors like UnrealEd and the Aurora toolset by Bioware.\par
+Enough insights and rants\par
+\par
+Hopefully at this point I've got everyone sold on the rationale as to why you would want to incorporate a scripting component into your game. So, the next question is: how the heck do you do it?\par
+\par
+What I'm going to be using for my scripting component is an embeddable scripting engine called Lua. I'll be the first to admit that I'm not master of Lua, but it is a relatively simple language, so it doesn't take long to get a grip on. Some of the later examples I'll be going over are pretty straightforward. You can get information on Lua itself at www.lua.org. Also, at the end of this document, I'm going to include some additional reference material. There are a fair number of other scripting languages out there, like Small, Simkin, Python and Perl. However Lua's a nice, clean language. As well, it has one really nice advantage.\par
+\par
+Lua is Open Source. This is good because (a) you get the source to the language, if you want to dig in that deep and (b) it's free. You can use it in commercial apps without having to cough up coin for it. As independent games development go, free == good.\par
+\par
+So, who's currently using Lua? Is Lua some simple garage based language that is only being used by the poor? Well, not quite. Lua's been around for a while, and it's been used by more than a couple of relatively important bodies:\par
+\par
+- Lucasarts\par
+ * Grim Fandango\par
+ * Escape from Monkey Island\par
+\par
+- Bioware\par
+ * Neverwinter Nights\par
+ * MDK2\par
+\par
+OK, enough with the Who's who of lua developers. You can see all the bodies using lua at the lua website.\par
+\par
+Let's start off really simple. The first thing that we need to build, just to show off how to use lua, is a simple interpreter. What this will involve is:\par
+\par
+   1. Getting the lua interpreter code.\par
+   2. Setting up your dev environment.\par
+   3. Building an interpreter from scratch.\par
+\par
+Hey, I thought you said enough rants?\par
+\par
+Yeah, I did, didn't I? So, let's get to it. Again, you can get all the lua source code by going to www.lua.org and surfing the site. I'd also like to take a second and note that there is a new version of Lua on the horizon, 5.0. I'm not going to be discussing this version in this article. I will examine it at a later date, but for now, we'll be using 4.0.1.\par
+\par
+The first thing that we are going to want to do is build a library of all the lua functionality. This way, we don't have to include the source every time we build a project. This isn't hard, and it's nothing but grunt work. So I've done this, and included it as part of this article. I've built a static library for this example. Yes, I could have built it into a DLL, but for a scripting system, a static library is going to be a little faster. Not lots, mind you, but a little faster.\par
+\par
+Building an interpreter is actually pretty easy, now that we have the library built. I'm going to generate a simple Win32 console application that takes input from the console (typed in) and uses lua to interpret it.\par
+State of the union (or: Who's got a VM?)\par
+\par
+The first thing we have to be aware of is that lua is essentially a state machine. Additionally, lua is a virtual machine. We'll come back to that in a bit (hopefully). Anyway, once you have initialized your programs interface to lua, you can send lua commands through a lua function called lua_dostring. But I'm really starting to get ahead of myself. Let's back this up a bit and start from the top of the interpreter.\par
+\par
+First and foremost, pretty much every function in lua deals with a lua state. This essentially defines the current state of the lua interpreter; it keeps track of the functions, global variables and additional interpreter related information in this structure. You create a lua state with a call to lua_open. This function looks like this:\par
+\par
+    lua_State *lua_open (int initialStackSize);\par
+\par
+If you want, you can think of lua_State as a handle to the current instance of the lua interpreter. It's a fair analogy.\par
+\par
+So, it we get a non-null lua_State we know that lua managed to initialize correctly. That's good, and it means we can now do stuff with lua. But we can only do a small set of things with lua by default. More on this shortly.\par
+\par
+Let's get some code in place that we can use as a starting point. lua_open() is defined in lua.h (you can find that in lua's include directory). So, we should be able to compile the following code snippet as a win32 console application:\par
+\par
+    #include <stdio.h>\par
+    #include <lua.h>\par
+     \par
+    int main(int argc, char* argv[ ])\par
+    \{\par
+       lua_State* luaVM = lua_open(0);\par
+     \par
+       if (NULL == luaVM)\par
+       \{\par
+          printf("Error Initializing lua\\n");\par
+          return -1;\par
+       \}\par
+     \par
+       return 0;\par
+    \}\par
+\par
+Unfortunately, this won't work. More to the point, it won't link. It's a pretty simple problem, but one of those niggling little issues you get when you're dealing with Open Source projects. Essentially, lua was written to be ANSI C compliant. Please note: I said ANSI C. Notice that all the files in the lua library all end with the "c" extension. This essentially means that the way the compiler mangles the names of all the functions in lua is based on the C calling convention. This is different that how C++ handles function naming. It's not terribly hard to fix, it just is annoying more than anything else. To fix it, simply wrap the #include <lua.h> and any other include statement that references lua library functionality inside of:\par
+\par
+    extern "C"\par
+    \{\par
+       \'85\par
+    \}\par
+\par
+So, what we end up with is:\par
+\par
+    #include <stdio.h>\par
+    extern "C"\par
+    \{\par
+     #include <lua.h>\par
+    \}\par
+     \par
+    int main(int argc, char* argv[ ])\par
+    \{\par
+       lua_State* luaVM = lua_open(0);\par
+     \par
+       if (NULL == luaVM)\par
+       \{\par
+          printf("Error Initializing lua\\n");\par
+          return -1;\par
+       \}\par
+     \par
+       return 0;\par
+    \}\par
+\par
+Easily, this is a candidate for inclusion in its own header file. Compilation at this stage will produce an exe that runs. It does nothing, but it runs.\par
+\par
+So, at this point, you're probably thinking that if we have an 'open' statement, we are going to need a close statement. And you'd be correct. lua_close() essentially closes a state that was opened with lua_open(). Very straight forward. The format of lua_close() looks like this:\par
+\par
+    void lua_close (lua_State *openState);\par
+\par
+We can finish off our code above by adding this to the application:\par
+\par
+    #include <stdio.h>\par
+    extern "C"\par
+    \{\par
+     #include <lua.h>\par
+    \}\par
+     \par
+    int main(int argc, char* argv[ ])\par
+    \{\par
+       lua_State* luaVM = lua_open(0);\par
+     \par
+       if (NULL == luaVM)\par
+       \{\par
+          printf("Error Initializing lua\\n");\par
+          return -1;\par
+       \}\par
+     \par
+       // Do stuff with lua code.\par
+        \par
+       lua_close( luaVM );\par
+     \par
+       return 0;\par
+    \}\par
+\par
+And voila, we have a completely useless bit of lua. But, we have, in its infancy, a completely embedded scripting system in our app.\par
+Doing something useful with lua.\par
+\par
+Enough setup, lets get something functional. Currently we have enough code under our belt to create an interpreter. I'm going to focus the next section on building a very limited interpreter. No fancy editor, no inline debugging. Just a console that allows us to type in lua commands and have the interpreter performs actions. This is going to require us to know one more lua based function: lua_dostring(). Essentially, what this function does is perform actions in lua. I don't know how else to describe that, other than actually illustrating it:\par
+\par
+    #include <stdio.h>\par
+    extern "C"\par
+    \{\par
+     #include <lua.h>\par
+    \}\par
+     \par
+    int main(int argc, char* argv[ ])\par
+    \{\par
+       lua_State* luaVM = lua_open(0);\par
+     \par
+       if (NULL == luaVM)\par
+       \{\par
+          printf("Error Initializing lua\\n");\par
+          return -1;\par
+       \}\par
+     \par
+       // Do stuff with lua code.\par
+        \par
+       char* strLuaInput = "a = 1 + 1;\\n";\par
+     \par
+       lua_dostring(luaVM, strLuaInput);\par
+     \par
+       lua_close(luaVM);   \par
+     \par
+       return 0;\par
+    \}\par
+\par
+Running and compiling this app returns the following:\par
+\par
+That's really, really \'85 useless. So how do we go about making it less useless? Well, if you've gone out and downloaded lua, or looked at some lua samples, you'll see that lua has a function called print. So, let's add this into the code and give it a whirl. Here's the code that we would use.\par
+\par
+    #include <stdio.h>\par
+    extern "C"\par
+    \{\par
+     #include <lua.h>\par
+    \}\par
+\par
+    int main(int argc, char* argv[ ])\par
+    \{\par
+       lua_State* luaVM = lua_open(0);\par
+     \par
+       if (NULL == luaVM)\par
+       \{\par
+          printf("Error Initializing lua\\n");\par
+          return -1;\par
+       \}\par
+     \par
+       // Do stuff with lua code.\par
+        \par
+       char* strLuaInput = "a = 1 + 1;\\nprint( a);\\n";\par
+     \par
+       lua_dostring(luaVM, strLuaInput);\par
+     \par
+       lua_close(luaVM);   \par
+     \par
+       return 0;\par
+    \}\par
+\par
+Compiling has zero problems. Running it, however is another story all together:\par
+\par
+So what's the deal? Did I lie? I mean, first and foremost, it's telling me that 'print' is a nil (read: null) value. So is there actually a function called print()? Well, there is, but it's not defined by the standard lua environment. It's in a library that we are going to have to link into our application. This mechanism is essentially how we are going to extend lua for our own selfish goals. Anyway, to get print(), and some other relevant functions to work, we are going to need more functions linked into the system. We can do that as follows:\par
+\par
+    #include <stdio.h>\par
+    extern "C"\par
+    \{\par
+     #include <lua.h>\par
+     #include <lualib.h>\par
+    \}\par
+     \par
+    int main(int argc, char* argv[ ])\par
+    \{\par
+       lua_State* luaVM = lua_open(0);\par
+     \par
+       if (NULL == luaVM)\par
+       \{\par
+          printf("Error Initializing lua\\n");\par
+          return -1;\par
+       \}\par
+     \par
+       // initialize lua standard library functions\par
+\par
+       lua_baselibopen(luaVM);\par
+       lua_iolibopen(luaVM);\par
+       lua_strlibopen(luaVM);\par
+       lua_mathlibopen(luaVM);\par
+\par
+       // Do stuff with lua code.\par
+        \par
+       char* strLuaInput = "a = 1 + 1;\\nprint( a);\\n";\par
+     \par
+       lua_dostring(luaVM, strLuaInput);\par
+     \par
+       lua_close(luaVM);   \par
+\par
+       return 0;\par
+    \}\par
+\par
+Running the code now produces a real result:\par
+\par
+I can also clean up the output by changing the instructions sent to lua:\par
+\par
+    #include <stdio.h>\par
+    extern "C"\par
+    \{\par
+     #include <lua.h>\par
+     #include <lualib.h>\par
+    \}\par
+     \par
+    int main(int argc, char* argv[ ])\par
+    \{\par
+       lua_State* luaVM = lua_open(0);\par
+     \par
+       if (NULL == luaVM)\par
+       \{\par
+          printf("Error Initializing lua\\n");\par
+          return -1;\par
+       \}\par
+     \par
+       // initialize lua standard library functions\par
+       lua_baselibopen(luaVM);\par
+       lua_iolibopen(luaVM);\par
+       lua_strlibopen(luaVM);\par
+       lua_mathlibopen(luaVM);\par
+       // Do stuff with lua code.\par
+        \par
+       char* strLuaInput = "a = 1 + 1;\\nprint( \\"1 + 1: \\" .. a);\\n";\par
+     \par
+       lua_dostring(luaVM, strLuaInput);\par
+     \par
+       lua_close(luaVM);   \par
+     \par
+       return 0;\par
+    \}\par
+\par
+Simply put, this outputs the summation of 1+1. So what I've done is create a simple, yet effective illustration of getting a scripting language into your app. This final source can be found in the included workspace as a project named SimpleInterpreter.\par
+\par
+It's a relatively simple matter to take this rudimentary example and build a simple interpreter with it. All that we need to do that this point is add some text capturing facilities. I've done this in the project FunctionalInterpreter. This is a rudimentary interpreter, and is nothing other than a simple extension of the project SimpleInterpreter. I won't go over the code here. It's simply an extension of what I've shown so far.\par
+Getting data from a file.\par
+\par
+So far, we've been entering in all the lua code by hand. This is great, if you want to type your script over and over again. This is novel for about 5 seconds. So, how do we go about getting data from a file? Well, two solutions present themselves. So the question remains \'85 how can we persist this data?\par
+\par
+It's really very simple, much like everything we've seen so far in lua. Lua has a function, lua_dofile() that essentially processes the contents of a file. Wow, that makes life really interesting. So, if I was to add that to the current source code, I could get my application to execute a script whenever it runs. Essentially,\par
+\par
+    #include <stdio.h>\par
+    extern "C"\par
+    \{\par
+     #include <lua.h>\par
+     #include <lualib.h>\par
+    \}\par
+     \par
+    int main(int argc, char* argv[ ])\par
+    \{\par
+       lua_State* luaVM = lua_open(0);\par
+     \par
+       if (NULL == luaVM)\par
+       \{\par
+          printf("Error Initializing lua\\n");\par
+          return -1;\par
+       \}\par
+     \par
+       // initialize lua standard library functions\par
+       lua_baselibopen(luaVM);\par
+       lua_iolibopen(luaVM);\par
+       lua_strlibopen(luaVM);\par
+       lua_mathlibopen(luaVM);\par
+     \par
+       printf("Simple Functional lua interpreter\\n");\par
+       printf("Based on lua version 4.0.1\\n");\par
+       printf("Enter lua commands. type 'exit<enter>' to exit\\n");\par
+       printf("\\n>");\par
+     \par
+       lua_dofile(luaVM, "./startup.lua");\par
+     \par
+       lua_close(luaVM);\par
+     \par
+       return 0;\par
+    \}\par
+\par
+Which moves us to the next bit \'85 what does "startup.lua" look like? Well, it looks like this:\par
+\par
+    -- Simple lua script\par
+    -- comments indicated with a '--'\par
+    a = 5;\par
+    b = 10;\par
+    c = a + b;\par
+    print ("5+10=" .. c);\par
+\par
+What do we end up getting for results? Simply put:\par
+\par
+As you can see, this is staying relatively simple. But, if you look, you can see a couple of problems with this analogy.\par
+\par
+First and foremost, we now are exposing all of our source code for anything that we are building. This may not be a smart idea, since it's essentially exposing the functionality of the game (ie: the game logic) to everyone in a readily available format. Again, this might not be desirable. So, how to correct this deficiency? We compile our scripts.\par
+\par
+You should be scratching your heads at this point. "Ash", you say, "wasn't the whole point of this exercise to avoid having to compile anything"? Well, yes, it is. But this compilation doesn't have to be done during the development process. You can leave your code in source format and compile it when you need to. In a second, you are going to see that in our application, there will be zero repercussions in doing this.\par
+\par
+In the source workspace that I've included, I've also included to additional projects: lua and luac.\par
+\par
+Lua is the interpreter that comes with the tarball distributed by the lua organization. Luac is a bytecode compiler. This essentially compiles the lua source into a format that is not human readable. It's also a bit faster. Not lots, but a little.\par
+\par
+So, I'm going to take that script I just created, compile it into a bytecode compiled script, and use it in the exact same application, with the only change being the name of the file it loads. When you run luac, this is what you get:\par
+\par
+OK. So, if we want to, we should be able to compile the last file we had, "startup.lua" into "startup.lub" using the following:\par
+\par
+    Luac \endash o startup.lub startup.lua\par
+\par
+I've moved the file startup.lua into the same directory as luac.exe, but if I added it to a directory on my path, I could run this executable anywhere. Anyway, here's the result:\par
+\par
+And at the very bottom, you see startup.lua and startup.lub. Open both up in a text editor, and you'll see that the lua file is textual and the lub file is binary.\par
+\par
+I'd like to take a second and point out that the extensions given to these files is purely up to the developer. Lua itself doesn't care what you call them.\par
+Integrating with your code\par
+\par
+At this point, you see that it's not hard to put lua into your application. But what use is it at this point in time to you if you can't get it to do anything with your application. Think about it. At this point, we have a scripting system, but we have no real integration with your application. I can't use what I've built so far to actually do something, like getting an enemy AI to search for your player in game. What we are going to need to do now is expose functions, as well as methods to lua. So this is our next step. To do this, we're going to create a couple of simple functions that we can access via lua.\par
+\par
+So, what I'm building is a simple Manager pattern for NPC characters. It's a singleton object that allows the creation, management, and deletion of NPC's that we can have in a game. I want to restate that this manager I've created is purely for educational purposes only. It in no way reflects what I would use for an NPC manager in real life.\par
+\par
+Anyway, back to the project. I've created Binding01 as an example of what you can do when you integrate lua and your existing code base. Here's an overview of what's going on.\par
+\par
+I've created a singleton object called NPCManager. It essentially creates and manages NPCObjects. It uses an STL list to keep track of them (again, this is a simple example). Currently, NPCObjects only contains a 'name' object. This object is never directly exposed to lua. Any time that we want access to one of these objects, we do it through the name of the object. This is crude and in no way is indicative of what can be done, but it's a straightforward example.\par
+\par
+So, NPCManager creates and manages NPCObjects. NPCManager is a singleton, so it exists from the first time it is used until the end of its lifecycle. So, the next question is, how do we expose the NPCManager's functionality to lua? We do this through a glue function. So, what does a glue function do? Essentially, it's a communication function between lua and your code. So why do we need this communication? It's all because lua doesn't have the same variable types as C/C++.\par
+Lua specifics\par
+\par
+Life would be really good if lua data types and C/C++ data types matched. But if that was the case, then we'd be ending up exposing the same kind of troubles that we have with C/C++ (Memory allocation, type checking issues \'85 lots more, but you get the drift). To help with this, lua is what's considered a dynamically typed language. In essence, lua doesn't have any variable types. There's no int, float, char or similar variable declaration in lua. The weird thing is, even though we've just said that there aren't any types in lua, there actually are.\par
+\par
+Say what?\par
+\par
+Well, by dynamically typed, what we mean is that the variable doesn't have any type definition, but the value does.\par
+\par
+Say WHAT?\par
+\par
+OK, this can be a little difficult to deal with, unless you've done any COM programming, or have worked under the hood with Visual Basic. If you have had this experience, then this is just a review for you; otherwise, we're off to a fantasy land of variant data types.\par
+\par
+A Variant is essentially a 'catch all' data type. By definition, any variable created as a variant is of a variant data type \'85 wait \'85 yeah, that makes sense \'85 kinda. Here, let's try this. Say I have a new typedef (in pseudocode):\par
+\par
+    typedef struct _variant\par
+    \{\par
+       int type;\par
+       union\par
+       \{\par
+          int   Integer;\par
+          double Float;\par
+          char  String[255];     \par
+       \}\par
+    \} Variant;\par
+\par
+What we have here is a new type called variant. Based on the value in type, we would use either the Integer, Float or String fields to get at data. Every variable that we create based on Variant is a variant, but what it contains is defined by its value. It's that simple. And, it can be very powerful, as you'll see shortly. Please note that lua doesn't use this kind of structure for it's internal data type. It's much more complex than this. This was purely an illustration.\par
+\par
+So, all that lua understands is this one variant data type. The data that it can hold in this variant type is: nil, number, string, function, userdata, and table. So from this, we can see that a variable in lua can be numerical, character, or a function. The other two, userdata and table, I'll explain in a later document.\par
+\par
+So, if we can put data into this variant in numerical or character, hopefully there is some way, on the C++ side, to be able to get that data out. And there is. There are several functions available to convert and manipulate this data. Some of them are:\par
+\par
+    double            lua_tonumber (lua_State *L, int index);\par
+    const char*       lua_tostring (lua_State *L, int index);\par
+    size_t            lua_strlen (lua_State *L, int index);\par
+    lua_CFunction     lua_tocfunction (lua_State *L, int index);\par
+    void*             lua_touserdata (lua_State *L, int index);\par
+\par
+There are more functions for accessing arguments passed through by lua. So what do they do? Well, as they read, they convert data from one format in lua to something in C++. But what's up with that index element. What about if we want to pass in a couple of arguments? I mean, that's completely possible. So how do we handle that? The answer is: the lua stack.\par
+Lua's Stack.\par
+\par
+Data gets passed from lua to C/C++ and back again through lua's stack. It's essentially a communication channel. So, when I call a function, the function is placed on the stack, the first argument is then placed on the stack, and so on. This isn't a traditional stack, since normally, the only operations that are available on a stack are push and pop. These functions that I've described all access specific elements on the stack. So, like I was saying before, it's not really a stack, but we'll consider it a stack for now. But each operation accesses an element in this stack by an index. This index value can be either positive, or negative. Here's what the lua doc's have to say about that:\par
+\par
+    A positive index represents an absolute stack position (starting at 1, not 0 as in C); a negative index represents an offset from the top of the stack. More specifically, if the stack has n elements, index 1 represents the first element (that is, the first element pushed onto the stack), index n represents the last element; index -1 also represents the last element (that is, the element at the top), and index -n represents the first element. We say that an index is valid if it lays between 1 and the stack top (that is, (1 <= abs(index) <= top)).\par
+\par
+Just as a side note, there are several additional functions that are grouped in with the lua_toXXX set of functions used for accessing the lua stack. Check the docs that come with lua for a reference. In a later tutorial, I'll dig into them. Anyway, where was I? Oh yeah, glue functions \'85\par
+\par
+If you look at my glue function l_addNPC:\par
+\par
+    int l_addNPC( lua_State* luaVM)\par
+    \{\par
+       theNPCManager->AddNPC( lua_tostring(luaVM, -1) );\par
+       lua_pushnumber( luaVM, 0 );\par
+       return 1;\par
+    \}\par
+\par
+So, essentially what I do is call the NPCManager's AddNPC method. As an argument, I grab the string that is currently the last item on lua's stack. Since AddNPC is a void method, I'm assuming that all goes well, and push a number, back onto lua's stack, essentially the return value. A similar process is done with DeleteNPC.\par
+\par
+OK, I now have the glue functions. Now how to let lua know that these functions exist? And how do we let lua know how many arguments that these functions take. Well, your in for a bit of a surprise. You can, with lua, send as many arguments as you want to into a function in lua. As well, any function in lua can return more than one result. That's right. Any lua or lua accessible function can return multiple values. That's called a Tuple. It's cool, but it can also be a bit unsettling at first. So, what about getting the binding between lua and C/C++? Well, it's not that hard. Essentially what we have to do is register the function to lua. The lua function lua_register provides that functionality for us.\par
+\par
+    lua_register(L, n, f)\par
+\par
+where\par
+\par
+    L: lua_State to register the function to\par
+    N: the character name of the function exposed to lua\par
+    F: the glue function.\par
+\par
+Surprisingly enough, lua_register() isn't a function, it's a macro. Here's what the macro expands to:\par
+\par
+    (lua_pushcfunction(L, f), lua_setglobal(L, n))\par
+\par
+lua_pushcfunction pushes a C function into lua_State. As well, the name of this function (n) is now added to the 'global' function name space. Now, anytime in lua we use that name, it will be associated with that function. It's a one to one relationship.\par
+\par
+So, with the lua_register macro, we have now exposed two lua functions called addNPC and deleteNPC. I can now use them in any lua script, so long as they are registered when I initialize lua. So, building upon the previous example, if you examine main.cpp, it's been modified as such:\par
+\par
+    int main(int argc, char* argv[])\par
+    \{\par
+       lua_State* luaVM = lua_open(0);\par
+     \par
+       if (NULL == luaVM)\par
+       \{\par
+          printf("Error Initializing lua\\n");\par
+          return -1;\par
+       \}\par
+     \par
+       // initialize lua standard library functions\par
+       lua_baselibopen(luaVM);\par
+       lua_iolibopen(luaVM);\par
+       lua_strlibopen(luaVM);\par
+       lua_mathlibopen(luaVM);\par
+     \par
+       printf("Simple Functional lua interpreter\\n");\par
+       printf("Based on lua version 4.0.1\\n");\par
+       printf("Registering Custom C++ Functions.\\n");\par
+       lua_register( luaVM, "addNPC", l_addNPC );\par
+       lua_register( luaVM, "deleteNPC", l_deleteNPC );\par
+     \par
+       printf("Enter lua commands. type 'exit' to exit\\n");\par
+       printf("\\n>");\par
+     \par
+       lua_dofile(luaVM, "./startup.lua");\par
+     \par
+       // Print out the NPC's that have been added.\par
+       theNPCManager->Dump();\par
+     \par
+       lua_close(luaVM);\par
+     \par
+       return 0;\par
+    \}\par
+\par
+I've highlighted the changes in the code in blue to identify the changes between the two versions of this code.\par
+\par
+Next up, what would I do in lua? Well, it's surprisingly simple:\par
+\par
+    -- Simple lua script\par
+    -- comments indicated with a '--'\par
+    -- New C functions exposed to lua\par
+    --  addNPC("NPC Name")\par
+    --  deleteNPC("NPC Name")\par
+     \par
+    addNPC("Joe");\par
+    addNPC("Sue");\par
+    addNPC("KillBot2000");\par
+     \par
+    addNPC("BotToDelete");\par
+    addNPC("Krista");\par
+    addNPC("Brandon");\par
+    deleteNPC("BotToDelete");\par
+\par
+Running the code produces the following results:\par
+\par
+I can add and delete NPC's into the system. I then display the results as part of the engine, not the lua script.\par
+\par
+I can also change the functionality of this application simply by changing the script. I don't have to recompile a line of the engine. If I want to use the luac compiler, I can. I've included the compiled version of 'startup.lua' called 'startup.lub'. Change main.cpp to load this file, and you're cooking with gas.\par
+Final words\par
+\par
+OK, this has actually been a rather large document for me to write. It's taken me the better part of two days (thank god for long holiday weekends) to write this up. Included in the source code that accompanies this lesson is another project I've created that builds particles during startup. It's a bit more complex and I do plan on writing it up. But it's there for those of you that want to experiment past what I've written here. You can get the source to these projects at: http://gamestudies.cdis.org/~amatheson/lua_examples.zip\par
+\par
+All I can say is that experimenting with lua has been a very rewarding experience and has given a true insight into extending any application that you create. There are a lot more topics to discuss in dealing with scripting languages and I'll be revisiting it soon. Your comments on this lesson are always welcome, as well as suggestions/directions in which to take it. So have fun.\par
+\par
+Thanks go out to Rick Kerry (editor@rickkerry.com) for helping with proofing this document.\par
+References:\par
+\par
+Lua.org website: www.lua.org\par
+Lua Wiki: http://lua-users.org/wiki/\par
+Lua intro: http://kakariko.ne.client2.attbi.com/lua/Lua_Workshop_files/frame.html\par
+About the author\par
+\par
+Ash Matheson is the Department Head for Game Studies at the Center for Digital Imaging and Sound (CDIS) in Burnaby, BC, Canada. He's been teaching game programming there for two years. Previously, he's been a software engineer for Hummingbird Communications, Canada's second largest software development house. He's also been involved with several independent game companies as a development lead. You can contact him at amatheso@artschool.com.\par
+\par
+Discuss this article in the forums\par
+\par
+\par
+Date this article was posted to GameDev.net: 4/30/2003\par
+(Note that this date does not necessarily correspond to the date the article was written)\par
+\par
+See Also:\par
+Featured Articles\par
+Scripting Languages\par
+\par
+\'a9 1999-2010 Gamedev.net. All rights reserved. Terms of Use Privacy Policy\par
+Comments? Questions? Feedback? Click here!\par
+}
+ 

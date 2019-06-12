@@ -1,0 +1,23 @@
+global.rome_militia_at = 3
+global.rome_militia_df = 1
+global.rome_militia_hp = 10
+
+global.rome_swords_at = 7
+global.rome_swords_df = 4
+global.rome_swords_hp = 15
+
+global.rome_spear_at = 3
+global.rome_spear_df = 8
+global.rome_spear_hp = 15
+
+global.rome_archer_at = 4
+global.rome_archer_df = 2
+global.rome_archer_hp = 10
+
+global.rome_lcav_at = 15
+global.rome_lcav_df = 3
+global.rome_lcav_hp = 20
+
+global.rome_elite_at = 10
+global.rome_elite_df = 25
+global.rome_elite_hp = 25

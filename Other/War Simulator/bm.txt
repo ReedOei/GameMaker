@@ -1,0 +1,15 @@
+unit_hpa=0
+unit_ata=0
+unit_dfa=0
+unit_dif=0
+unit_dfd=0	
+unit_hpd=0
+unit_roll=0
+
+unit_dif=unit_ata-unit_dfd
+if unit_dif<=0{
+unit_hpd-=unit_dif}
+else if unit_dif>0{
+unit_roll=floor(random(unit_dif))
+	if unit_roll=1{
+		unit_hpd-=unit_dif}

@@ -1,0 +1,19 @@
+Changelog:
+
+v_1.1 21.08.09
+- Added Brick Breaker Gamemode. 
+- Made the background for 1 Player a lighter color
+- Fixed Medium and Hard modes
+- Made Bricks Bigger
+- Made Buttons Change Color when the mouse is on it
+v_1.2  25.08.09
+- Made "death" sound
+- Fixed "Load Game" button
+- Made "Wall" sound
+- Added 2 lives to Easy Mode
+- There are now bricks (indisctructable) on Hard mode 
+v_1.3 3.09.09
+- Add Steel Bricks
+- Made 5 more Brick Breaker levels
+- Changed the back button
+- Added a "Play Again" feature

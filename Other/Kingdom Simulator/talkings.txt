@@ -1,0 +1,9 @@
+if global.first_contact=1{
+	if global.visitor_like=1{
+		execute file("like1.txt")
+	}
+	else if global.visitor_like=0{
+		execute file("dislike1.txt")
+	}
+}
+	

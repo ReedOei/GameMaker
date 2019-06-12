@@ -1,0 +1,83 @@
+/*
+
+This is the list of factions. This is the file to edit
+should you want to change anything(like cheating by adding lots of resources).
+
+*/
+
+global.faction_info_name = "Egypt"
+global.faction_info_wood = 100
+global.faction_info_clay = 100
+global.faction_info_stone = 100
+global.faction_info_iron = 100
+global.faction_info_copper = 100
+global.faction_info_tin = 100
+global.faction_info_gold = 500
+global.faction_info_pop = 50000
+global.faction_info_trooptable = 1
+
+global.faction_info_name = "Carthage"
+global.faction_info_wood = 100
+global.faction_info_clay = 100
+global.faction_info_stone = 100
+global.faction_info_iron = 100
+global.faction_info_copper = 100
+global.faction_info_tin = 100
+global.faction_info_gold = 500
+global.faction_info_pop = 50000
+global.faction_info_trooptable = 2
+
+global.faction_info_name = "Rome"
+global.faction_info_wood = 100
+global.faction_info_clay = 100
+global.faction_info_stone = 100
+global.faction_info_iron = 100
+global.faction_info_copper = 100
+global.faction_info_tin = 100
+global.faction_info_gold = 500
+global.faction_info_pop = 50000
+global.faction_info_trooptable = 3
+
+global.faction_info_name = "Greece"
+global.faction_info_wood = 100
+global.faction_info_clay = 100
+global.faction_info_stone = 100
+global.faction_info_iron = 100
+global.faction_info_copper = 100
+global.faction_info_tin = 100
+global.faction_info_gold = 500
+global.faction_info_pop = 50000
+global.faction_info_trooptable = 4
+
+global.faction_info_name = "Macedonia"
+global.faction_info_wood = 100
+global.faction_info_clay = 100
+global.faction_info_stone = 100
+global.faction_info_iron = 100
+global.faction_info_copper = 100
+global.faction_info_tin = 100
+global.faction_info_gold = 500
+global.faction_info_pop = 50000
+global.faction_info_trooptable = 5
+
+global.faction_info_name = "Gaul"
+global.faction_info_wood = 100
+global.faction_info_clay = 100
+global.faction_info_stone = 100
+global.faction_info_iron = 100
+global.faction_info_copper = 100
+global.faction_info_tin = 100
+global.faction_info_gold = 500
+global.faction_info_pop = 50000
+global.faction_info_trooptable = 6
+
+global.faction_info_name = "Briton"
+global.faction_info_wood = 100
+global.faction_info_clay = 100
+global.faction_info_stone = 100
+global.faction_info_iron = 100
+global.faction_info_copper = 100
+global.faction_info_tin = 100
+global.faction_info_gold = 500
+global.faction_info_pop = 50000
+global.faction_info_trooptable = 7

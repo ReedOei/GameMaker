@@ -1,0 +1,57 @@
+/*
+ This is a speech file, which will tell the people what to say, do not mess with this file unless you know what your doing
+*/
+greeting[0,1]="Good day, "
+greeting[0,2]="welcome, "
+greeting[0,3]="Hello, "
+greeting[0,4]="I suppose you expect a warm welcome after what you did, "
+
+question[0,1] = "How have you been, "
+question[0,2] = "What were you doing? I was worried."
+question[0,3] = "What have you been doing?"
+question[0,4] = "Why have you come, you will only destroy more things of value!?"
+
+talk_like[0,1] = greeting[0,1] + string(global.chaname)
+talk_like[0,2] = question[0,1] + string(global.chaname)
+talk_like[0,3] = "So, I see, " + string(global.chaname)
+talk_like[0,4] = "Indeed good friend!"
+talk_like[0,5] = "Of course I will, friend!"
+talk_like[0,6] = "Unfortenetly I cannot, though I wish you luck."
+talk_like[0,7] = "Please, enter my home."
+talk_like[0,8] = "It was quite a day at " + string(global.recent_event)
+talk_like[0,9] = "I bring terrible tidings, " + string(global.chaname)
+talk_like[0,10] = "Aye, that's what I was thinking."
+talk_like[0,11] = question[0,2]
+
+talk_hate[0,1] = greeting[0,4] + string(global.chaname)
+talk_hate[0,2] = question[0,4] + string(global.chaname)
+talk_hate[0,3] = "So, I see," + string(global.chaname)
+talk_hate[0,4] = "Pssht, only a fool!"
+talk_hate[0,5] = "Why would I ever do that?"
+talk_hate[0,6] = "Never, would I even attempt that! You are a fool!"
+talk_hate[0,7] = "Don't come in, leave this place and never come back."
+talk_hate[0,8] = "It was, how shall I put it, interesting at," + string(global.recent_event)
+talk_hate[0,9] = "I bring terrible tidings, but they are unfortenetly not about you," + string(global.chaname)
+talk_hate[0,10] = "Only a fool would ever think that!"
+
+talk_neutral[0,1] = greeting[0,3] + string(global.chaname)
+talk_neutral[0,2] = question[0,3] + string(global.chaname)
+talk_neutral[0,3] = "So, I see," + string(global.chaname)
+talk_neutral[0,4] = "That may be so."
+talk_neutral[0,5] = "I may, give me a moment to decide."
+talk_neutral[0,6] = "I cannot"
+talk_neutral[0,7] = "If you must, enter my home."
+talk_neutral[0,8] = "It was quite a day at" + string(global.recent_event)
+talk_neutral[0,9] = "I bring terrible tidings," + string(global.chaname)
+talk_neutral[0,10] = "Possibly."
+
+char_[0,1] = "Gaius Maximus Scipio"
+char_[0,2] = "Cornellius Julius Scipio"
+char_[0,3] = "Augustus Lucius Scipio"
+char_[0,4] = "Augustus Julius Caesar"
+char_[0,5] = "Gaius Lucius Caesar"
+char_[0,6] = "Cornellius Maximus Ceasar"
+char_[0,7] = "Sophiles III"
+char_[0,8] = "Thucydides of Athens"
+char_[0,9] = "Jociphiles the Asassin"
+char_[0,10] = "King Phillip VI"

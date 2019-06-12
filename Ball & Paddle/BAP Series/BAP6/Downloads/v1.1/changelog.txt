@@ -1,0 +1,4 @@
+Change Log :
+
+V 1.0 - Game Made
+V 1.1 - Adventure paddle fixed to make shot work better, and to have a front. I have added a space between : and the score. Not very important. Balls now destroy each other when colliding, and they all don't get destroyed when you hit something.

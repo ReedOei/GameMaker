@@ -1,0 +1,23 @@
+global.greece_militia_at = 3
+global.greece_militia_df = 1
+global.greece_militia_hp = 10
+
+global.greece_hoplite_at = 4
+global.greece_hoplite_df = 8
+global.greece_hoplite_hp = 15
+
+global.greece_ahoplite_at = 4
+global.greece_ahoplite_df = 15
+global.greece_ahoplite_hp = 15
+
+global.greece_cretan_at = 10
+global.greece_cretan_df = 2
+global.greece_cretan_hp = 5
+
+global.greece_spartan_at = 5
+global.greece_spartan_df = 13
+global.greece_spartan_hp = 25
+
+global.greece_tcav_at = 7
+global.greece_tcav_df = 4
+global.greece_tcav_hp = 15

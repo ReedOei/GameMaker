@@ -1,0 +1,23 @@
+global.macedon_militia_at = 3
+global.macedon_militia_df = 1
+global.macedon_militia_hp = 10
+
+global.macedon_hypaspist_at = 6
+global.macedon_hypaspist_df = 5
+global.macedon_hypaspist_hp = 15
+
+global.macedon_phalanx_at = 4
+global.macedon_phalanx_df = 6
+global.macedon_phalanx_hp = 15
+
+global.macedon_archer_at = 5
+global.macedon_archer_df = 1
+global.macedon_archer_hp = 10
+
+global.macedon_lancer_at = 8
+global.macedon_lancer_df = 3
+global.macedon_lancer_hp = 15
+
+global.macedon_companion_at = 15
+global.macedon_companion_df = 15
+global.macedon_companion_hp = 30

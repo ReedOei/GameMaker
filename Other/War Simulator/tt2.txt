@@ -1,0 +1,23 @@
+global.carthage_militia_at = 3
+global.carthage_militia_df = 1
+global.carthage_militia_hp = 10
+
+global.carthage_skirmisher_at = 6
+global.carthage_skirmisher_df = 3
+global.carthage_skirmisher_hp = 15
+
+global.carthage_spear_at = 3
+global.carthage_spear_df = 7
+global.carthage_spear_hp = 15
+
+global.carthage_slinger_at = 4
+global.carthage_slinger_df = 2
+global.carthage_slinger_hp = 10
+
+global.carthage_lcav_at = 15
+global.carthage_lcav_df = 5
+global.carthage_lcav_hp = 20
+
+global.carthage_sacred_at = 15
+global.carthage_sacred_df = 15
+global.carthage_sacred_hp = 25

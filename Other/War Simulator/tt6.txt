@@ -1,0 +1,23 @@
+global.gaul_warband_at = 3
+global.gaul_warband_df = 1
+global.gaul_warband_hp = 10
+
+global.gaul_axemen_at = 8
+global.gaul_axemen_df = 2
+global.gaul_axemen_hp = 15
+
+global.gaul_sword_at = 2
+global.gaul_sword_df = 8
+global.gaul_sword_hp = 15
+
+global.gaul_archer_at = 5
+global.gaul_archer_df = 1
+global.gaul_archer_hp = 10
+
+global.gaul_bcav_at = 15
+global.gaul_bcav_df = 3
+global.gaul_bcav_hp = 20
+
+global.gaul_noble_at = 3
+global.gaul_noble_df = 1
+global.gaul_noble_hp = 10

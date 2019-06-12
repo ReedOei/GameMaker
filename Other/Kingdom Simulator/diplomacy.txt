@@ -1,0 +1,30 @@
+/* 
+	Diplomacy File, You COULD use this to cheat, but you could also not, and that would be more honest. Or you could find out exactly what the enemy wants. But anyway, this file controls MOST diplomacy.
+	
+*/
+Nation[0,1]="Animox(Dacia)"
+Nation[0,2]="Kiphile(Greek)"
+Nation[0,3]="Hulious(Roman)"
+Nation[0,4]="Garthlax(German)"
+Nation[0,5]="Ikemtohp(EgyptM)"
+Nation[0,6]="Liopemto(EgyptO)"
+Nation[0,7]="Phemparot(EgyptN)"
+Nation[0,8]="Keres(Persia)"
+Nation[0,9]="Juriapi(Babylon)"
+Nation[0,10]="Diaclarx(Carthage)"
+
+Nation[1,1]=0
+Nation[1,2]=1
+Nation[1,3]=1
+Nation[1,4]=0
+Nation[1,5]=1
+Nation[1,6]=1
+Nation[1,7]=0
+Nation[1,8]=0
+Nation[1,9]=1
+Nation[1,10]=0
+
+Respond[0,1]="You mustn't overextend thyself, my good sir."
+Respond[0,2]="You have nothing to over us!"
+Respond[0,3]="We shall consider your offer, but do not take hope."
+Respond[0,4]="Trade! Whyn't not?"

@@ -1,0 +1,23 @@
+global.briton_warband_at = 3
+global.briton_warband_df = 1
+global.briton_warband_hp = 10
+
+global.briton_woad_at = 8
+global.briton_woad_df = 3
+global.briton_woad_hp = 15
+
+global.briton_nfan_at = 10
+global.briton_nfan_df = 1
+global.briton_nfan_hp = 15
+
+global.briton_slinger_at = 4
+global.briton_slinger_df = 2
+global.briton_slinger_hp = 10
+
+global.briton_chariot_at = 15
+global.briton_chariot_df = 3
+global.briton_chariot_hp = 20
+
+global.briton_chariota_at = 20
+global.briton_chariota_df = 2
+global.briton_chariota_hp = 15
